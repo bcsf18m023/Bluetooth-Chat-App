@@ -9,8 +9,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.Set;
@@ -20,6 +22,7 @@ public class DeviceListActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapterPairedDevices, adapterAvailableDevices;
     private BluetoothAdapter bluetoothAdapter;
     private Context context;
+    private ProgressBar progressScanDevices;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +31,9 @@ public class DeviceListActivity extends AppCompatActivity {
         init();
     }
     private void init(){
+
+        progressScanDevices = findViewById(R.id.menu_scan_devices);
+
         listPairedDevices=findViewById(R.id.list_paired_devices);
         listAvailableDevices=findViewById(R.id.list_available_devices);
 
@@ -58,11 +64,25 @@ public class DeviceListActivity extends AppCompatActivity {
         switch (item.getItemId())
         {
             case R.id.menu_scan_devices:
-                Toast.makeText(context,"Scan Devices Clicked",Toast.LENGTH_SHORT).show();
+                scanDevices();
                 return  true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+
+    }
+    private void scanDevices(){
+
+        progressScanDevices.setVisibility(View.VISIBLE);
+        adapterAvailableDevices.clear();
+        Toast.makeText(context,"Scan Started",Toast.LENGTH_SHORT).show();
+
+
+        if(bluetoothAdapter.isDiscovering())
+        {
+            bluetoothAdapter.cancelDiscovery();
+        }
+        bluetoothAdapter.startDiscovery();
 
     }
 }
