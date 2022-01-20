@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +26,33 @@ public class DeviceListActivity extends AppCompatActivity {
     private BluetoothAdapter bluetoothAdapter;
     private Context context;
     private ProgressBar progressScanDevices;
+    private BroadcastReceiver bluetoothDeviceListener=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action=intent.getAction();
+            if(BluetoothDevice.ACTION_FOUND.equals(action))
+            {
+                BluetoothDevice device=intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                if(device.getBondState()!=BluetoothDevice.BOND_BONDED)
+                {
+                    adapterAvailableDevices.add(device.getName()+"\n"+device.getAddress());
+                }
+
+            }
+            else if(BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action))
+            {
+                progressScanDevices.setVisibility(View.GONE);
+                if (adapterAvailableDevices.getCount()==0)
+                {
+                    Toast.makeText(context,"No New Devices Found",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(context,"Click On Device to Start Chat",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +81,13 @@ public class DeviceListActivity extends AppCompatActivity {
                 adapterPairedDevices.add(device.getName()+"\n"+device.getAddress());
             }
         }
+
+
+        IntentFilter intentFilter=new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        registerReceiver(bluetoothDeviceListener,intentFilter);
+        IntentFilter intentFilter1=new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+        registerReceiver(bluetoothDeviceListener,intentFilter1);
+
     }
 
     @Override
