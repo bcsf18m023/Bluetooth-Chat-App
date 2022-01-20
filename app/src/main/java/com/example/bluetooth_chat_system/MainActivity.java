@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId())
         {
             case R.id.menu_search_device:
-                Toast.makeText(context,"Clicked Search Devices",Toast.LENGTH_SHORT).show();
+                checkPermission();
                 return true;
             case R.id.menu_bluetooth_on:
                 enableBluetooth();
@@ -105,8 +105,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 MainActivity.this.finish();
                             }
-                        })
-                        .create();
+                        }).show();
             }
         }else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
