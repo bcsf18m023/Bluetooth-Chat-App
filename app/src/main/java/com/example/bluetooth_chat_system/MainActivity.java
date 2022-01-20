@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
@@ -86,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode==LOCATION_PERMISSION_REQUEST)
         {
             if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
-
+                Intent intent=new Intent(context,DeviceListActivity.class);
+                startActivity(intent);
             }else{
                 new AlertDialog.Builder(context)
                     .setCancelable(false)
