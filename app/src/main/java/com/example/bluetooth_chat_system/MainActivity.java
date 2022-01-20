@@ -31,10 +31,10 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId())
         {
             case R.id.menu_search_device:
-                Toast.makeText(context,"this is device search",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"Clicked Search Devices",Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_bluetooth_on:
-                Toast.makeText(context,"this is bluetooth connection",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"Clicked Enable Bluetooth",Toast.LENGTH_SHORT).show();
                 return  true;
             default:
                 return super.onOptionsItemSelected(item);
