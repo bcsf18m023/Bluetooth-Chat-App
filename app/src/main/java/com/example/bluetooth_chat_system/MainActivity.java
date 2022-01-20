@@ -65,13 +65,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void enableBluetooth()
     {
-        if (bluetoothAdapter.isEnabled() )
-        {
-            Toast.makeText(context,"Bluetooth Already enable",Toast.LENGTH_SHORT).show();
-        }
-        else
+        if (! bluetoothAdapter.isEnabled() )
         {
             bluetoothAdapter.enable();
+        }
+        if (bluetoothAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE)
+        {
+            Intent discoveryIntent = new Intent(bluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+            discoveryIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,300);
+            startActivity(discoveryIntent);
         }
     }
     private void checkPermission()
