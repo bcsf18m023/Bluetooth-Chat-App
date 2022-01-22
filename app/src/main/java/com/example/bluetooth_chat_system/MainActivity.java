@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void enableBluetooth()
     {
-        if (! bluetoothAdapter.isEnabled() )
+        if (!bluetoothAdapter.isEnabled() )
         {
             bluetoothAdapter.enable();
         }
