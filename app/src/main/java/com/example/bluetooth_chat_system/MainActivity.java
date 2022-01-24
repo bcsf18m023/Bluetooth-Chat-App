@@ -1,6 +1,7 @@
 package com.example.bluetooth_chat_system;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Context context;
     private final int LOCATION_PERMISSION_REQUEST=101;
+    private final int SELECT_DEVICE=102;
     private BluetoothAdapter bluetoothAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +83,20 @@ public class MainActivity extends AppCompatActivity {
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
         {
             ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},LOCATION_PERMISSION_REQUEST);
+        }else{
+            Intent intent=new Intent (context,DeviceListActivity.class);
+            startActivityForResult(intent,SELECT_DEVICE);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode==SELECT_DEVICE && resultCode==RESULT_OK)
+        {
+            String address=data.getStringExtra("deviceAddress");
+            Toast.makeText(context,"Address: "+address,Toast.LENGTH_SHORT).show();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -90,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         {
             if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
                 Intent intent=new Intent(context,DeviceListActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,SELECT_DEVICE);
             }else{
                 new AlertDialog.Builder(context)
                     .setCancelable(false)
