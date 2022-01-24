@@ -20,7 +20,7 @@ public class ChatUtils {
     private ConnectThread connectThread;
     private AcceptedThread acceptedThread;
 
-    private final UUID APP_UUID= UUID.fromString(" ");
+    private final UUID APP_UUID= UUID.fromString( );
     private final String APP_NAME="BluetoothChatApp";
     public static final int STATE_NONE=0;
     public static final int STATE_LISTEN=1;

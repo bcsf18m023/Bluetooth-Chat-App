@@ -52,7 +52,7 @@ public class DeviceListActivity extends AppCompatActivity {
         listPairedDevices.setAdapter(adapterPairedDevices);
         listAvailableDevices.setAdapter(adapterAvailableDevices);
 
-        listPairedDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listAvailableDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String info=((TextView)view).getText().toString();
